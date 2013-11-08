@@ -7,31 +7,29 @@ import matplotlib.colors as cl
 import math
 #import random
 import numpy
+import os
 
 from itertools import groupby
 from operator import itemgetter
 
 
 nodecounter=0
-s = (line.rstrip().split() for line in sys.stdin)
-for ((degree, userid), row) in groupby(s, itemgetter(0,1)):
+directoryname = 'twittergraphs'
+for filename in os.listdir(directoryname):
   nodecounter += 1
   G = nx.Graph()
+  for line in open(directoryname + '/' + filename, 'r'):
+    vec=line.rstrip().split(" ")
+    G.add_edge(vec[0], vec[1])
 
-  nodes = {}
-  for (friend1, friend2) in row:
-    G.add_edge(friend1, friend2,)
-    #G.add_node(friend1, age = int(age1), gender = gender1)
-    #G.add_node(friend2, age = int(age2), gender = gender2)
-
-  plt.figure(1, figsize=(14,4))
+  plt.figure(1, figsize=(14,7))
   plt.figure(1).clear()
 
   G_components = nx.connected_component_subgraphs(G)
   numCCs = len(G_components)
 
   p=int(math.ceil(math.sqrt(numCCs)))
-  p=4
+  p=2
   q=1
   plotnodesize=30
   extras=0
@@ -55,5 +53,5 @@ for ((degree, userid), row) in groupby(s, itemgetter(0,1)):
     nx.draw(G_plot,pos, node_color = colors,
       edge_color='black', node_size=plotnodesize, with_labels=False)
 
-  plt.savefig("plots/" + str(degree) + "_plot" + str(nodecounter) + ".png")
+  plt.savefig("plots/" + filename + ".png")
 
