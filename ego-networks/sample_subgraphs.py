@@ -15,10 +15,11 @@ def Usage():
   print '%s' % sys.argv[0]
   print 'Options:'
   print '-e (required): edge file. (.edges)'
+  print '-o (required): output file'
   print '-n (required): number of times to sample'
   print '-3 (optional): do size-3 subgraphs. Default is size 4'
   print 'Example usage:'
-  print '%s -e twitter/100318079.edges -n 1000' % sys.argv[0]
+  print '%s -e twitter/100318079.edges -o 100318079.counts -n 1000' % sys.argv[0]
   quit()
 
 def count_3(count_vector, graph, nodes):
@@ -89,21 +90,23 @@ def main():
       assert False, "Option %s not available" % option
   if not edge_file or not n_samples:
     Usage()
+  try:
+    target_node = re.search('(\d+).edges', edge_file).group(1)
+  except:
+    Usage()
   all_nodes = set()
   graph = collections.defaultdict(lambda:collections.defaultdict(lambda: False))
-  # This assumes an undirected graph.
   for line in open(edge_file):
     node1, node2 = line.strip().split()
     all_nodes.add(node1)
     all_nodes.add(node2)
     graph[node1][node2] = True
-    graph[node2][node1] = True
+  for node in all_nodes:
+    graph[target_node][node] = True
 
   flat_nodes = list(all_nodes)
   count_vector = generate_count_vector(subgraph_size)
   for i in range(n_samples):
-    # if i % 100 == 0:
-    #   print i
     nodes = np.random.choice(flat_nodes, subgraph_size, replace=False)
     if subgraph_size == 3:
       count_3(count_vector, graph, nodes)
