@@ -22,7 +22,6 @@ def main():
     if node1 in node_gender:
       output = open('%s/%s-%s.edges' % (args.output_folder, node1, node1), 'w')
       all_nodes = neighbors[node1].union(neighbors[node1])
-      all_nodes.remove(node1)
       for node in all_nodes:
         for neb in neighbors[node]:
           if neb in all_nodes:
