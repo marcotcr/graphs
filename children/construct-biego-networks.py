@@ -17,11 +17,15 @@ def main():
     node1, node2 = line.strip().split()
     neighbors[node1].add(node2)      
     neighbors[node2].add(node1)      
+  statistics = open('corpus-statistics', 'w')
   for line in open(args.edges):
     node1, node2 = line.strip().split()
     if node1 in node_gender and node2 in node_gender:
       output = open('%s/%s-%s.edges' % (args.output_folder, node1, node2), 'w')
       all_nodes = neighbors[node1].union(neighbors[node2])
+      statistics.write('%s-%s %d %d %d %d' % (node1, node2, len(neighbors[node1]), len(neighbors[node2]), len(all_nodes), len(neighbors[node1].intersection(neighbors[node2]))))
+      all_nodes.remove(node1)
+      all_nodes.remove(node2)
       for node in all_nodes:
         for neb in neighbors[node]:
           if neb in all_nodes:

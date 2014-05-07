@@ -48,6 +48,7 @@ def main():
     Usage()
   data = np.genfromtxt(data_file, delimiter=',')
   labels = np.genfromtxt(label_file, delimiter='\n')
+  #data=data[labels!=2]
   # Normalizing data
   data = preprocessing.scale(data)
   preds_1 = np.zeros(data.shape[0])
@@ -75,19 +76,23 @@ def main():
   print '-----------------'
   print 'LogReg'
   print classification_report(labels, preds_1)
-  print 'Final f1 score:', f1_score(labels, preds_1)
+  print 'Confusion Matrix' 
+  print confusion_matrix(labels, preds_1)
   print '-----------------'
-  print 'Baseline'
+  print 'Stratified Baseline'
   print classification_report(labels, preds_2)
-  print 'Final f1 score:', f1_score(labels, preds_2)
+  print 'Confusion Matrix' 
+  print confusion_matrix(labels, preds_2)
   print '-----------------'
   print 'RandomForest'
   print classification_report(labels, preds_3)
-  print 'Final f1 score:', f1_score(labels, preds_3)
+  print 'Confusion Matrix' 
+  print confusion_matrix(labels, preds_3)
   print '-----------------'
   print 'SVM'
   print classification_report(labels, preds_4)
-  print 'Final f1 score:', f1_score(labels, preds_4)
+  print 'Confusion Matrix' 
+  print confusion_matrix(labels, preds_4)
 
 if __name__ == '__main__':
   main()
