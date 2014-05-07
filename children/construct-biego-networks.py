@@ -23,7 +23,7 @@ def main():
     if node1 in node_gender and node2 in node_gender:
       output = open('%s/%s-%s.edges' % (args.output_folder, node1, node2), 'w')
       all_nodes = neighbors[node1].union(neighbors[node2])
-      statistics.write('%s-%s %d %d %d %d' % (node1, node2, len(neighbors[node1]), len(neighbors[node2]), len(all_nodes), len(neighbors[node1].intersection(neighbors[node2]))))
+      statistics.write('%s-%s %d %d %d %d\n' % (node1, node2, len(neighbors[node1]), len(neighbors[node2]), len(all_nodes), len(neighbors[node1].intersection(neighbors[node2]))))
       all_nodes.remove(node1)
       all_nodes.remove(node2)
       for node in all_nodes:
