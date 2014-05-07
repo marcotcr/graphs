@@ -6,6 +6,7 @@ def main():
   parser.add_argument('-i', required=True,  dest='input', help='Input gexf file')
   parser.add_argument('-e', required=True, dest='edges', help='Output edge file')
   parser.add_argument('-n', required=True, dest='nodes', help='Output node attribute file')
+  parser.add_argument('-c', type=int, required=False, dest='cutoff', help='Minimum number of counts considered')
   args = parser.parse_args()
   xmldoc = minidom.parse(args.input)
   node_file = open(args.nodes, 'w')
@@ -38,7 +39,12 @@ def main():
       else:
         print 'BUG'
         quit()
-    edge_file.write('%s %s\n' % (source, target))
+    if args.cutoff:
+      if int(count) >= args.cutoff:
+        edge_file.write('%s %s\n' % (source, target))
+      
+    else:
+      edge_file.write('%s %s\n' % (source, target))
 
 if __name__ == '__main__':
   main()
