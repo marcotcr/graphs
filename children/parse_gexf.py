@@ -40,7 +40,7 @@ def main():
         print 'BUG'
         quit()
     if args.cutoff:
-      if int(count) >= args.cutoff:
+      if int(duration) >= args.cutoff:
         edge_file.write('%s %s\n' % (source, target))
       
     else:
