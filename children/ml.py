@@ -55,7 +55,8 @@ def main():
   preds_2 = np.zeros(data.shape[0])
   preds_3 = np.zeros(data.shape[0])
   preds_4 = np.zeros(data.shape[0])
-  for train_index, test_index in cross_validation.KFold(data.shape[0], n_folds=5):
+  for train_index, test_index in cross_validation.KFold(data.shape[0], n_folds=10):
+  #for train_index, test_index in cross_validation.LeaveOneOut(data.shape[0]):
     print 'Running for a split...'
     estimator = LogisticRegression()
     estimator.fit(data[train_index], labels[train_index])
