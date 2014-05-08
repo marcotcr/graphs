@@ -64,7 +64,7 @@ def Bipartite(graph):
 
 def LongestShortestPath(graph, node):
   Q = [node]
-  distances = {x:9 for x in graph.keys()}
+  distances = dict([(x, 9) for x in graph.keys()])
   distances[node] = 0
   visited = set([node])
   while Q:
@@ -78,7 +78,7 @@ def LongestShortestPath(graph, node):
     
 def Diameter(graph):
   nodes = set(graph.keys())
-  return 'diameter:%d' % max([LongestShortestPath(graph, node) for node in nodes])
+  return max([LongestShortestPath(graph, node) for node in nodes])
 
   
 
