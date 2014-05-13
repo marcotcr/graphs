@@ -16,6 +16,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn import preprocessing
 from sklearn.metrics import *
+from sklearn.ensemble import GradientBoostingClassifier
 import sklearn.dummy
 
 def Usage():
@@ -70,6 +71,8 @@ def main():
     estimator.fit(data[train_index], labels[train_index])
     preds_3[test_index] = estimator.predict(data[test_index])
 
+#GradientBoostingClassifier(n_estimators=100, learning_rate=1.0,
+#max_depth=1, random_state=0)
     estimator = svm.LinearSVC()
     estimator.fit(data[train_index], labels[train_index])
     preds_4[test_index] = estimator.predict(data[test_index])

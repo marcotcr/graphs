@@ -13,6 +13,10 @@ def main():
   edge_file = open(args.edges, 'w')
   for line in attrb_file:
     node_id, gender = line.split()[:2]
+    if gender == '1':
+      gender = 'M'
+    if gender == '2':
+      gender = 'F'
     node_file.write('%s dummy %s\n' % (node_id, gender))
   node_file.close()
 

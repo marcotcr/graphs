@@ -75,6 +75,7 @@ def main():
     labels.write('%s\n' % gender)
     features = np.zeros(k) 
     cmd = 'python fast_sample_subgraphs.py -e %s -n %d -s %d' % (edge_file, n_samples, subgraph_size)
+    #cmd = 'python kitchen_sink.py -e %s' % (edge_file)
     #cmd = 'python sample_subgraphs.py -e %s -n %d -s %d' % (edge_file, n_samples, subgraph_size)
     for line in os.popen(cmd).readlines():
       feat, value = line.split()

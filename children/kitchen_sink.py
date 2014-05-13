@@ -78,6 +78,8 @@ def LongestShortestPath(graph, node):
     
 def Diameter(graph):
   nodes = set(graph.keys())
+  if not nodes:
+    return 0
   return max([LongestShortestPath(graph, node) for node in nodes])
 
   
