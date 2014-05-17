@@ -21,6 +21,7 @@ for line in open('corpus-statistics'):
   gender_sizes[gender].append(int(union))
   gender_edges[gender].append(edge)
   if user1+'-'+user2 in unique_pairs:
+    print user1, user2
     print 'BUG'
     quit()
   ego_size[user1] = int(u1)
