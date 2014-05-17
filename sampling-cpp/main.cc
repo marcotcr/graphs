@@ -42,20 +42,22 @@ int main(int argc, char** argv) {
     binets.push_back(make_pair(node1, node2));
   }
   vector<unordered_map<string, int> > reps(binets.size());
+  int count = 0;
   #pragma omp parallel for
-  for (int i = 0; i < binets.size(); ++i) {
-    if (i % 100 == 0) {
-      printf("Processed %d graphs\n", i);
-    }
+  for (unsigned int i = 0; i < binets.size(); ++i) {
     Graph binet = big_graph.Binet(binets[i].first, binets[i].second);
     reps[i] = binet.SampleSubgraphs(n_samples, subgraph_size);
+    count++;
+    if (count % 100 == 0) {
+      printf("Processed %d graphs.\n", count);
+    }
   }
 
   int possible_subgraphs = PossibleSubgraphs(subgraph_size);
   int feature_count = 0;
   unordered_map<string, int> feature_id;
   vector<int> temp;
-  for (int i = 0; i < reps.size(); ++i) {
+  for (unsigned int i = 0; i < reps.size(); ++i) {
     temp.clear();
     temp.resize(possible_subgraphs);
     for (auto x: reps[i]) {
