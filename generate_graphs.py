@@ -14,6 +14,11 @@ def main():
   parser.add_argument('-i', '--pi', required=True, dest='pi', type=float)
   args = parser.parse_args()
   assignment = np.random.binomial(1, args.pi, args.n)
+  output = open('nodes', 'w')
+  for i, a in enumerate(assignment):
+    gender = 'M' if a == 0 else 'F'
+    output.write('%s dummy %s\n' % (i, gender))
+
   graph = collections.defaultdict(lambda: collections.defaultdict(lambda: False))
   for i in range(args.n):
     for j in range(i + 1, args.n):
