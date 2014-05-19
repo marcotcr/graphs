@@ -1,6 +1,7 @@
 #include "graph.h"
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <cassert>
 #include <vector>
 #include <algorithm>
@@ -126,6 +127,42 @@ std::string Graph::ConnectedComponents() {
   }
   return answer;
 }
+std::string Graph::SizeConnectedComponents() {
+  vector<int> sizes;
+  unordered_set<int> nodes;
+  queue<int> Q;
+  for (auto i: graph_) {
+    nodes.insert(i.first);
+  }
+  while (!nodes.empty()) {
+    int x = *(nodes.begin());
+    Q.push(x);
+    nodes.erase(x);
+    int size_cc = 0;
+    while (!Q.empty()) {
+      x = Q.front();
+      Q.pop();
+      size_cc++;
+      for (auto y: graph_[x]) {
+        if (nodes.find(y.first) != nodes.end()) {
+          nodes.erase(y.first);
+          Q.push(y.first);
+        }
+      }
+    }
+    sizes.push_back(size_cc);
+  }
+  string answer;
+  int n = sizes.size();
+  char temp[50];
+  sprintf(temp, "%d", n);
+  answer += temp;
+  if (complement_) {
+    answer += "_" + complement_->SizeConnectedComponents();
+  }
+  return answer;
+}
+
 std::string Graph::Bipartite() {
   unordered_set<int> nodes;
   queue<int> Q;
@@ -219,11 +256,51 @@ std::string Graph::LSPDistribution() {
   }
   return answer;
 }
+std::string Graph::MaxLSP() {
+  int max = 0;
+  int temp;
+  for (auto x: graph_) {
+    temp = LSP(x.first);
+    if (temp > max) {
+      max = temp;
+    }
+  }
+  string answer;
+  char tmp[50];
+  sprintf(tmp, "%d", max);
+  answer += tmp;
+  if (complement_) {
+    answer += "_" + complement_->MaxLSP();
+  }
+  return answer;
+}
+int Graph::NumNodes() {
+  return graph_.size();
+}
+int Graph::NumEdges() {
+  int num_edges = 0;
+  for (auto node : graph_) {
+    num_edges += node.second.size();
+  }
+  return num_edges / 2;
+}
 std::string Graph::Canonical() {
   string answer = "DD:" + DegreeDistribution() + ",";
   answer += "CC:" + ConnectedComponents() + ",";
   answer += "B:" + Bipartite() + ",";
   answer += "LSP:" + LSPDistribution();
+  return answer;
+}
+std::string Graph::KitchenSink() {
+  int itemp1, itemp2;
+  sscanf(SizeConnectedComponents().c_str(), "%d_%d", &itemp1, &itemp2);
+  char temp[150];
+  sprintf(temp, "%d %d %d %d ", itemp1, itemp2, NumNodes(), NumEdges());
+  string answer = temp;
+  sscanf(MaxLSP().c_str(), "%d_%d", &itemp1, &itemp2);
+  sprintf(temp, "%d %d", itemp1, itemp2);
+  answer += temp;
+  // answer += "B:" + Bipartite() + ",";
   return answer;
 }
 Graph Graph::Egonet(int node) {
@@ -232,11 +309,13 @@ Graph Graph::Egonet(int node) {
   for (auto x: graph_[node]) {
     nodes.push_back(x.first);
   }
-  Graph g(*this, nodes);
-  return g;
+  return Graph(*this, nodes);
 }
 
 Graph Graph::Binet(int node1, int node2) {
+  if (node1 == node2) {
+    return Egonet(node1);
+  }
   std::vector<int> nodes;
   assert(graph_.find(node1) != graph_.end());
   assert(graph_.find(node2) != graph_.end());
@@ -253,8 +332,7 @@ Graph Graph::Binet(int node1, int node2) {
   for (auto x: unique) {
     nodes.push_back(x);
   }
-  Graph g(*this, nodes);
-  return g;
+  return Graph(*this, nodes);
 }
 std::unordered_map<std::string, int> Graph::SampleSubgraphs(int n_subgraphs, int size) { 
   std::random_device device;

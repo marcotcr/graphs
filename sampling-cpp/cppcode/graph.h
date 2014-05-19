@@ -13,6 +13,7 @@ class Graph {
   Graph(const Graph& graph, const std::vector<int>& nodes);
   Graph(const std::unordered_map<int, std::unordered_map<int, bool> > graph);
   std::string Canonical();
+  std::string KitchenSink();
   // Returns a graph that is composed of all the neighbors of node.
   Graph Egonet(int node);
   // Returns a graph that is the union of the neighbors of both nodes.
@@ -24,8 +25,12 @@ class Graph {
   std::string DegreeDistribution();
   // Returns sizes of connected components in a string.
   std::string ConnectedComponents();
+  std::string SizeConnectedComponents();
   std::string Bipartite();
   std::string LSPDistribution();
+  std::string MaxLSP();
+  int NumNodes();
+  int NumEdges();
   // Longest shortest path starting from node
   int LSP(int node);
   std::unordered_map<int, std::unordered_map<int, bool> > graph_;

@@ -72,7 +72,6 @@ def main():
     node1, node2 = graph.split('-')
     gender = ''.join(sorted('%s%s' % (node_gender[node1], node_gender[node2])))
     edge_file = '%s/%s.edges' % (dataset_folder, graph)
-    labels.write('%s\n' % gender)
     features = np.zeros(k) 
     cmd = 'python fast_sample_subgraphs.py -e %s -n %d -s %d' % (edge_file, n_samples, subgraph_size)
     #cmd = 'python kitchen_sink.py -e %s' % (edge_file)
@@ -84,7 +83,9 @@ def main():
         current_feat += 1
       feat = feat_id[feat]
       features[feat] = float(value)
-    data.append(features.copy())
+    if np.any(features):
+      data.append(features.copy())
+      labels.write('%s\n' % gender)
     print 'Processed ', len(data)
   data = np.array(data)
   np.savetxt(output, data, delimiter=',')

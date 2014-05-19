@@ -16,8 +16,7 @@ def main():
   assignment = np.random.binomial(1, args.pi, args.n)
   output = open('nodes', 'w')
   for i, a in enumerate(assignment):
-    gender = 'M' if a == 0 else 'F'
-    output.write('%s dummy %s\n' % (i, gender))
+    output.write('%s %d\n' % (i, a))
 
   graph = collections.defaultdict(lambda: collections.defaultdict(lambda: False))
   for i in range(args.n):

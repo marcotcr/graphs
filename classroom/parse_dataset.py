@@ -22,14 +22,17 @@ def main():
 
   friend_file = open(args.friendship)
   friend_file.readline()
+  edges = set()
   for line in friend_file:
     try:
-      source, target = line.split()[:2]
+      source, target = sorted(line.split()[:2])
     except:
       print 'ERROR'
       print line
       quit()
-    edge_file.write('%s %s\n' % (source, target))
+    if source+'_'+target not in edges:
+      edge_file.write('%s %s\n' % (source, target))
+      edges.add(source + '_'+target)
   edge_file.close()
 if __name__ == '__main__':
   main()
