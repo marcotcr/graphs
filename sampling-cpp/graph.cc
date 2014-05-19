@@ -33,12 +33,12 @@ Graph::Graph(const std::unordered_map<int, std::unordered_map<int, bool> > graph
 Graph::Graph(const Graph& graph, const std::vector<int>& nodes) {
   int node1, node2;
   std::unordered_map<int, std::unordered_map<int, bool> > complement;
-  for (int i = 0; i < nodes.size(); ++i) {
+  for (unsigned int i = 0; i < nodes.size(); ++i) {
     node1 = nodes[i];
     graph_[node1].size();
     complement[node1].size();
 
-    for (int j = i + 1; j < nodes.size(); ++j) {
+    for (unsigned int j = i + 1; j < nodes.size(); ++j) {
       node2 = nodes[j];
       if (graph.HasEdge(node1, node2)) {
         graph_[node1][node2] = true;
