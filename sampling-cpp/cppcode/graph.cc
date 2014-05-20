@@ -339,6 +339,8 @@ std::unordered_map<std::string, int> Graph::SampleSubgraphs(int n_subgraphs, int
   std::mt19937 generator(device());
   vector<int> nodes(size);
   unordered_map<string, int> result;
+  if (nodes_.size() < size)
+    return result;
   for (int z = 0; z < n_subgraphs; ++z) {
     std::shuffle(nodes_.begin(), nodes_.end(), generator);
     std::copy(nodes_.begin(), nodes_.begin() + size, nodes.begin());
